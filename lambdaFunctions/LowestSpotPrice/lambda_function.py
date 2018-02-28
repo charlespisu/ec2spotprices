@@ -7,6 +7,7 @@ from datetime import datetime
 listOfSpotPrices= {}
 sortedListOfSpotPrices= ()
 
+#Main function called
 def lambda_handler(event, context):
     listPrices()
     sortSpotPrices()
@@ -16,9 +17,6 @@ def lambda_handler(event, context):
 
     for i in sortedListOfSpotPrices:
         respBodyString += (i[0] + " per hour: $" + i[1] + "</br>")
-        print (respBodyString)
-
-    print (respBodyString)
 
     resp = {
       "statusCode": 200,
@@ -31,7 +29,7 @@ def lambda_handler(event, context):
     return resp
 
 
-# Iterate through each region and get spot price, record lowest spot price
+# Iterate through each region and get spot price
 def listPrices():
     regionClient = boto3.client('ec2')
 
@@ -55,4 +53,3 @@ def sortSpotPrices():
 
     # Converts the dict listOfSpotPrices into a sorted tuple
     sortedListOfSpotPrices = sorted(listOfSpotPrices.items(), key=lambda x:x[1])
-    print(sortedListOfSpotPrices)

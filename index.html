@@ -236,21 +236,7 @@
           <P><strong>Spot Instance Price Checker</strong></P>
           <p> Select instance type to see pricing per region </br>
           Note: May take up to 10 seconds to complete.</p>
-          <select>
-            <option value="m1.small">M1 General Purpose Small</option>
-            <option value="m1.medium">M1 General Purpose Medium</option>
-            <option value="m1.large">M1 General Purpose Large</option>
-            <option value="m1.xlarge">M1 General Purpose Extra Large</option>
-            <option value="c1.medium">C1 High-CPU Medium</option>
-            <option value="c1.xlarge">C1 High-CPU Extra Large</option>
-            <option value="cc2.8xlarge">Cluster Compute Eight Extra Large</option>
-            <option value="cg1.4xlarge">Cluster GPU Quadruple Extra Large</option>
-            <option value="m2.xlarge">M2 High Memory Extra Large</option>
-            <option value="m2.2xlarge">M2 High Memory Double Extra Large</option>
-            <option value="m2.4xlarge">M2 High Memory Quadruple Extra Large</option>
-            <option value="hs1.8xlarge">High Storage Eight Extra Large</option>
-            <option value="t1.micro">T1 Micro</option>
-            <option value="t2.nano">T2 Nano</option>
+          <select id="selectedInstanceType">
             <option value="t2.micro">T2 Micro</option>
             <option value="t2.small">T2 Small</option>
             <option value="t2.medium">T2 Medium</option>
@@ -307,15 +293,6 @@
             <option value="g2.2xlarge">G2 Double Extra Large</option>
             <option value="g2.8xlarge">G2 Eight Extra Large</option>
             <option value="cr1.8xlarge">High Memory Cluster Eight Extra Large</option>
-            <option value="m3.medium">M3 General Purpose Medium</option>
-            <option value="m3.large">M3 General Purpose Large</option>
-            <option value="m3.xlarge">M3 General Purpose Extra Large</option>
-            <option value="m3.2xlarge">M3 General Purpose Double Extra Large</option>
-            <option value="c3.large">C3 High-CPU Large</option>
-            <option value="c3.xlarge">C3 High-CPU Extra Large</option>
-            <option value="c3.2xlarge">C3 High-CPU Double Extra Large</option>
-            <option value="c3.4xlarge">C3 High-CPU Quadruple Extra Large</option>
-            <option value="c3.8xlarge">C3 High-CPU Eight Extra Large</option>
             <option value="x1.16xlarge">X1 Extra High-Memory 16xlarge</option>
             <option value="x1.32xlarge">X1 Extra High-Memory 32xlarge</option>
             <option value="x1e.xlarge">X1E Extra Large</option>
@@ -324,10 +301,6 @@
             <option value="x1e.8xlarge">X1E Eight Extra Large</option>
             <option value="x1e.16xlarge">X1E 16xlarge</option>
             <option value="x1e.32xlarge">X1E 32xlarge</option>
-            <option value="i2.xlarge">I2 Extra Large</option>
-            <option value="i2.2xlarge">I2 Double Extra Large</option>
-            <option value="i2.4xlarge">I2 Quadruple Extra Large</option>
-            <option value="i2.8xlarge">I2 Eight Extra Large</option>
             <option value="r3.large">R3 High-Memory Large</option>
             <option value="r3.xlarge">R3 High-Memory Extra Large</option>
             <option value="r3.2xlarge">R3 High-Memory Double Extra Large</option>
@@ -365,12 +338,17 @@
 
     function myFunction() {
         var xhttp = new XMLHttpRequest();
+        var instanceSelector = document.getElementById("selectedInstanceType");
+        var instanceType = instanceSelector.options[instanceSelector.selectedIndex].value;
+
+        document.getElementById("my-demo").innerHTML = "</br> Processing request for instance type: <strong>"+ instanceType + "</strong>";
+
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
             document.getElementById("my-demo").innerHTML = this.responseText;
             }
         };
-        xhttp.open("GET", "https://0s9abeji0i.execute-api.us-east-1.amazonaws.com/prod/LowestSpotPrice", true);
+        xhttp.open("GET", "https://0s9abeji0i.execute-api.us-east-1.amazonaws.com/prod/LowestSpotPrice?instanceType="+instanceType, true);
         xhttp.send();
 
     }
